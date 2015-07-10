@@ -9,7 +9,6 @@ var server = net.createServer(function(client) {
     var parseMessage = data.split('\n');
     var splitMessage = parseMessage[0].split(' ');
     if (splitMessage[0] === 'GET') {
-
       if (splitMessage[1] === '/') {
         var string = '<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <title>The Elements</title> <link rel="stylesheet" href="/css/styles.css"> </head> <body> <h1>The Elements</h1> <h2>These are all the known elements.</h2> <h3>These are 2</h3> <ol> <li> <a href="/hydrogen.html">Hydrogen</a> </li> <li> <a href="/helium.html">Helium</a> </li> </ol> </body> </html>';
         client.write('\n\n' + string);
@@ -27,7 +26,7 @@ var server = net.createServer(function(client) {
         client.write('\n\n' + css);
         client.end();
       } else {
-        var error = '<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <title>Element not found!</title> <link rel="stylesheet" href="/css/styles.css"> </head> <body> <h1>404</h1> <h2>Element not found!</h2> <p> <a href="/">back</a> </p> </body> </html>'
+        var error = '<!DOCTYPE html> <html lang="en"> <head> <meta <charse></charse>t="UTF-8"> <title>Element not found!</title> <link rel="stylesheet" href="/css/styles.css"> </head> <body> <h1>404</h1> <h2>Element not found!</h2> <p> <a href="/">back</a> </p> </body> </html>'
         client.write('\n\n' + error);
         client.end();
       }
