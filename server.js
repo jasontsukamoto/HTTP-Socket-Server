@@ -1,5 +1,11 @@
 var net = require('net');
-var PORT = 8080;
+var PORT = PORT;
+
+if (process.argv.length > 2) {
+  PORT = process.argv[process.argv.length - 1];
+} else {
+  PORT = 8080;
+}
 
 var server = net.createServer(function(client) {
   client.setEncoding('utf8');
@@ -12,62 +18,65 @@ var server = net.createServer(function(client) {
     var error = '<!DOCTYPE html> <html lang="en"> <head> <meta <charse></charse>t="UTF-8"> <title>Element not found!</title> <link rel="stylesheet" href="/css/styles.css"> </head> <body> <h1>404</h1> <h2>Element not found!</h2> <p> <a href="/">back</a> </p> </body> </html>\n'
     var parseMessage = data.split('\n');
     var splitMessage = parseMessage[0].split(' ');
+
+    function responseHeader(date, contentLength) {
+      return 'HTTP/1.1 200 OK\nServer: Jason Server 1.0\nDate: ' + date + '\nContent-Type: text/html; charset=utf-8\nContent-Length: ' + contentLength + '\nConnection: keep-alive'
+    }
     if (splitMessage[0] === 'GET') {
-      switch(splitMessage[1]) {
-        case '/':
-          client.write('HTTP/1.1 200 OK\nServer: Jason Server 1.0\nDate: ' + new Date() + '\nContent-Type: text/html; charset=utf-8\nContent-Length: ' + string.length + '\nConnection: keep-alive');
+         case '/':
+          client.write(responseHeader(new Date(), string.length));
           client.write('\n\n' + string);
           client.end();
           break;
         case '/hydrogen.html':
-          client.write('HTTP/1.1 200 OK\nServer: Jason Server 1.0\nDate: ' + new Date() + '\nContent-Type: text/html; charset=utf-8\nContent-Length: ' + hydrogen.length + '\nConnection: keep-alive');
+          client.write(responseHeader(new Date(), hydrogen.length));
           client.write('\n\n' + hydrogen);
           client.end();
           break;
         case '/helium.html':
-          client.write('HTTP/1.1 200 OK\nServer: Jason Server 1.0\nDate: ' + new Date() + '\nContent-Type: text/html; charset=utf-8\nContent-Length: ' + helium.length + '\nConnection: keep-alive');
+          client.write(responseHeader(new Date(), helium.length));
           client.write('\n\n' + helium);
           client.end();
           break;
         case '/css/styles.css':
+          client.write(responseHeader(new Date(), css.length));
           client.write('\n\n' + css);
-          client.write('HTTP/1.1 200 OK\nServer: Jason Server 1.0\nDate: ' + new Date() + '\nContent-Type: text/html; charset=utf-8\nContent-Length: ' + css.length + '\nConnection: keep-alive');
           client.end();
           break;
         default:
-          client.write('HTTP/1.1 404 NOT FOUND\nServer: Jason Server 1.0\nDate: ' + new Date() + '\nContent-Type: text/html; charset=utf-8\nContent-Length: ' + error.length + '\nConnection: keep-alive');
+          client.write(responseHeader(new Date(), error.length));
           client.write('\n\n' + error);
           client.end();
       }
     } else if (splitMessage[0] === 'HEAD') {
       switch (splitMessage[1]) {
         case '/':
-          client.write('HTTP/1.1 200 OK\nServer: Jason Server 1.0\nDate: ' + new Date() + '\nContent-Type: text/html; charset=utf-8\nContent-Length: ' + string.length + '\nConnection: keep-alive');
+          client.write(responseHeader(new Date(), string.length));
           client.end();
           break;
         case '/hydrogen.html':
-          client.write('HTTP/1.1 200 OK\nServer: Jason Server 1.0\nDate: ' + new Date() + '\nContent-Type: text/html; charset=utf-8\nContent-Length: ' + hydrogen.length + '\nConnection: keep-alive');
+          client.write(responseHeader(new Date(), hydrogen.length));
           client.end();
           break;
         case '/helium.html':
-          client.write('HTTP/1.1 200 OK\nServer: Jason Server 1.0\nDate: ' + new Date() + '\nContent-Type: text/html; charset=utf-8\nContent-Length: ' + helium.length + '\nConnection: keep-alive');
+          client.write(responseHeader(new Date(), helium.length));
           client.end();
           break;
         case '/css/styles.css':
-          client.write('HTTP/1.1 200 OK\nServer: Jason Server 1.0\nDate: ' + new Date() + '\nContent-Type: text/html; charset=utf-8\nContent-Length: ' + css.length + '\nConnection: keep-alive');
+          client.write(responseHeader(new Date(), css.length));
           client.end();
           break;
         default:
-          client.write('HTTP/1.1 404 NOT FOUND\nServer: Jason Server 1.0\nDate: ' + new Date() + '\nContent-Type: text/html; charset=utf-8\nContent-Length: ' + error.length + '\nConnection: keep-alive');
+          client.write(responseHeader(new Date(), error.length));
           client.end();
-
       }
     }
 
   });
 });
 
-server.listen({port : PORT}, function(data) {
+console.log(PORT)
+server.listen(PORT, function(data) {
 
 });
 
